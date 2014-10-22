@@ -10,3 +10,7 @@ Usage
 ```
 usage: ios2android.py [path | file.zip]
 ```
+
+License
+===========
+ios2android is licensed under the terms of the WTFPL, see the included WTFPL-LICENSE file.
