@@ -1,12 +1,17 @@
+#! /usr/bin/env python
 # coding=utf-8
 import os
 from os import listdir
 from os.path import isfile, join
 from shutil import copyfile
+import sys
 
 __author__ = 'matheusjardimb'
 
-mypath = '.'
+# resize.py path comes into sys.argv[0]
+if len(sys.argv) != 2:
+    print('usage: resize.py [path | file.zip]')
+    exit(-1)
 
 retina_sufix_2x = '@2x'
 retina_sufix_1x = '@1x'
@@ -35,14 +40,26 @@ def create_dir(dir_path):
         os.makedirs(dir_path)
 
 
+path_of_images = sys.argv[1]
+
+if path_of_images.endswith('.zip'):
+    import zipfile
+
+    unzip_dir = 'unzipped'
+    path_of_images = unzip_dir
+    with zipfile.ZipFile(path_of_images, "r") as z:
+        z.extractall(unzip_dir)
+
 for directory in res_dirs:
     create_dir(directory)
 
-for filename in listdir(mypath):
-    if isfile(join(mypath, filename)) and [ext for ext in allowed_extensions if ext in filename]:
+for filename in listdir(path_of_images):
+    if isfile(join(path_of_images, filename)) and [ext for ext in allowed_extensions if ext in filename]:
         path = res_ldpi
         if retina_sufix_2x in filename:
             path = res_hdpi
 
         new_name = sanitize_filename(filename)
-        copyfile(filename, os.path.join(path, new_name))
+        dst_path = os.path.join(path, new_name)
+        src_path = os.path.join(path_of_images, filename)
+        copyfile(src_path, dst_path)
