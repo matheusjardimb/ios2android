@@ -8,9 +8,9 @@ import sys
 
 __author__ = 'matheusjardimb'
 
-# resize.py path comes into sys.argv[0]
+# ios2android.py path comes into sys.argv[0]
 if len(sys.argv) != 2:
-    print('usage: resize.py [path | file.zip]')
+    print('usage: ios2android.py [path | file.zip]')
     exit(-1)
 
 retina_sufix_2x = '@2x'
@@ -46,9 +46,9 @@ if path_of_images.endswith('.zip'):
     import zipfile
 
     unzip_dir = 'unzipped'
-    path_of_images = unzip_dir
     with zipfile.ZipFile(path_of_images, "r") as z:
         z.extractall(unzip_dir)
+    path_of_images = unzip_dir
 
 for directory in res_dirs:
     create_dir(directory)
