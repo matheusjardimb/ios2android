@@ -1,3 +1,5 @@
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-ios2android-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/1053)
+
 ios2android
 ===========
 
@@ -10,6 +12,7 @@ Usage
 ```
 usage: ios2android.py [path | file.zip]
 ```
+Outputs a res\ folder with the proper sub-directories and renamed files.
 
 License
 ===========
