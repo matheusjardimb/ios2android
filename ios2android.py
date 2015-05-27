@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # coding=utf-8
+import unicodedata
 import os
 from os import listdir
 from os.path import isfile, join
@@ -16,6 +17,8 @@ if len(sys.argv) != 2:
 retina_sufix_2x = '@2x'
 retina_sufix_1x = '@1x'
 
+encoding = "utf-8"
+
 allowed_extensions = ['.png']
 
 res = 'res'
@@ -26,13 +29,23 @@ res_xhdpi = 'res\\drawable-xhdpi'
 res_xxhdpi = 'res\\drawable-xxhdpi'
 res_dirs = [res, res_ldpi, res_mdpi, res_hdpi, res_xhdpi, res_xxhdpi]
 
+def remove_accents(input_str):
+    nkfd_form = unicodedata.normalize('NFKD', input_str)
+    return u"".join([c for c in nkfd_form if not unicodedata.combining(c)])
 
 def sanitize_filename(name):
+    dot = name.rfind('.')
+    extension = name[dot:]
+    name = name[:dot]
     new_filename = name.replace(retina_sufix_1x, '')
+    new_filename = name.replace('(', '').replace(')', '').replace('.', '')
     new_filename = new_filename.replace(retina_sufix_2x, '')
     new_filename = new_filename.replace('-', '_')
+    new_filename = new_filename.replace(' ', '_')
+    new_filename = new_filename.replace(" ", '_')
     new_filename = new_filename.lower()
-    return new_filename
+    new_filename = remove_accents(new_filename)
+    return new_filename + extension
 
 
 def create_dir(dir_path):
